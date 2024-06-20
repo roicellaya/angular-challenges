@@ -20,6 +20,7 @@ import { TodoService } from './services/todo.service';
     <div *ngFor="let todo of todos()">
       {{ todo.title }}
       <button (click)="update(todo)">Update</button>
+      <button (click)="delete(todo)">Delete</button>
     </div>
   `,
   styles: [],
@@ -52,6 +53,18 @@ export class AppComponent implements OnInit {
               return todoUpdated;
             }),
           );
+        }),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe();
+  }
+
+  delete(todo: ITodo) {
+    this.todoService
+      .deleteTodo(todo)
+      .pipe(
+        tap(() => {
+          this.todos.update(() => this.todos().filter((t) => t.id !== todo.id));
         }),
         takeUntilDestroyed(this.destroyRef),
       )
