@@ -9,14 +9,16 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { tap } from 'rxjs/operators';
+import { SpinnerComponent } from './components/spinner/spinner.component';
 import { ITodo } from './models/todo';
 import { TodoService } from './services/todo.service';
 
 @Component({
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, SpinnerComponent],
   selector: 'app-root',
   template: `
+    <app-spinner></app-spinner>
     <div *ngFor="let todo of todos()">
       {{ todo.title }}
       <button (click)="update(todo)">Update</button>
